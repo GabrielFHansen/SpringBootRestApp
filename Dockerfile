@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-alpine
-VOLUME /tmp
-ARG JAR_FILE
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM openjdk:8
+EXPOSE 8080
+ADD target/mycontroller.jar mycontroller.jar
+ENTRYPOINT ["java","-jar","/mycontroller.jar"]
