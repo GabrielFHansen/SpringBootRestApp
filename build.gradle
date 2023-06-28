@@ -12,6 +12,12 @@ repositories {
 	mavenCentral()
 }
 
+task buildImage(type: DockerBuildImage) {
+    dependsOn createDockerFile, syncJar
+    inputDir = createDockerFile.getDestDir()
+    images = ["yourdockerhubusername/tuneit-gradle-docker:1.0"]
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
