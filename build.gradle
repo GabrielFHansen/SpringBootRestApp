@@ -1,12 +1,15 @@
 plugins {
 	id 'org.springframework.boot' version '2.3.2.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'com.palantir.docker' version '0.26.0'
+    	id 'com.palantir.docker-run' version '0.26.0'
 	id 'java'
 }
 
 group = 'com.kkjavatutorials'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
+String imageName = "gabrielfhansen/springboot-restapp:$version"
 
 repositories {
 	mavenCentral()
@@ -16,6 +19,14 @@ task buildImage(type: DockerBuildImage) {
     dependsOn createDockerFile, syncJar
     inputDir = createDockerFile.getDestDir()
     images = ["yourdockerhubusername/tuneit-gradle-docker:1.0"]
+}
+
+
+
+docker {
+    name imageName
+    files "build/libs/${bootJar.archiveFileName.get()}"
+    buildArgs([JAR_FILE: bootJar.archiveFileName.get()])
 }
 
 dependencies {
